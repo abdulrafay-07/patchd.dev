@@ -18,7 +18,6 @@ export const AuthForm = () => {
       provider: provider,
       callbackURL: "/dashboard",
       errorCallbackURL: "/error", // TODO: add error page
-      disableRedirect: true,
     });
   };
 
