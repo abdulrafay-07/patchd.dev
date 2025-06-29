@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
-import "./globals.css";
 
-import { Navbar } from "@/components/navbar";
-import { MobileNavbar } from "@/components/mobile-navbar";
+import "./globals.css";
 
 const font = Nunito_Sans({
   subsets: ["latin"],
@@ -25,10 +23,6 @@ export default function RootLayout({
       <body
         className={`${font.className} antialiased`}
       >
-        <Navbar />
-        <div className="relative md:hidden">
-          <MobileNavbar />
-        </div>
         {children}
       </body>
     </html>
