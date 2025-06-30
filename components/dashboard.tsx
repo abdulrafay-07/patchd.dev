@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import { CopyHandle } from "@/components/copy-handle";
+
 import { useGetUserProfile } from "@/features/profile/api/get-user-profile";
 
 interface DashboardProps {
@@ -19,7 +21,7 @@ export const Dashboard = ({
   // Redirect to claim page if no existing profile found
   useEffect(() => {
     if (!isLoading && !profile?.success) {
-      router.push("/dashboard/claim");
+      router.push(`/dashboard/claim?userId=${userId}`);
     };
   }, [isLoading, profile, router]);
 
@@ -32,8 +34,8 @@ export const Dashboard = ({
   };
 
   return (
-    <div>
-      {profile?.message}
+    <div className="h-full flex flex-col items-center py-12 px-4 max-w-xl mx-auto">
+      <CopyHandle handle={profile.data.handle} />
     </div>
   )
 };

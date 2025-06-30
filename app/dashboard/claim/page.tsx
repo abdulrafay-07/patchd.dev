@@ -1,10 +1,13 @@
 "use client"
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useQueryState } from "nuqs";
 
 import { checkUserHandle } from "@/features/profile/api/check-user-handle";
+import { useGetUserProfile } from "@/features/profile/api/get-user-profile";
+import { useCreateProfileHandle } from "@/features/profile/api/create-user-profile-handle";
 
 import {
   Card,
@@ -25,6 +28,19 @@ export default function ClaimPage() {
   } | null>(null);
   const [handle, setHandle] = useQueryState("handle");
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  const { data: profile, isLoading: isProfileLoading } = useGetUserProfile({ userId: userId! });
+  const { mutate, isPending } = useCreateProfileHandle({ handle: handle! });
+
+  useEffect(() => {
+    if ((!isProfileLoading && profile?.success) || !userId) {
+      router.push("/dashboard");
+    };
+  }, [isProfileLoading]);
+
   const debouncedSearch = useCallback(
     debounce(async (q: string) => {
       const data = await checkUserHandle(q);
@@ -44,11 +60,19 @@ export default function ClaimPage() {
     debouncedSearch(e.target.value);
   };
 
+  const handleClaim = () => {
+    mutate(undefined, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    });
+  };
+
   return (
     <div className="h-full flex items-center justify-center">
       <Card className="max-w-sm w-full gap-2">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold">
+          <CardTitle className="text-lg font-semibold">
             Claim your page
           </CardTitle>
         </CardHeader>
@@ -73,7 +97,8 @@ export default function ClaimPage() {
             />
           )}
           <Button
-            disabled={!response?.success}
+            disabled={!response?.success || isPending}
+            onClick={handleClaim}
             className="cursor-pointer"
           >
             Claim

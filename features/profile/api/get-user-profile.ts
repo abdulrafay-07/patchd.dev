@@ -15,7 +15,7 @@ export const useGetUserProfile = ({
   });
 };
 
-export const getUserProfile = async (userId: string): Promise<ApiResponse> => {
+const getUserProfile = async (userId: string): Promise<ApiResponse> => {
   const response = await fetch(`/api/profile/${userId}`);
   
   return await response.json() as ApiResponse;

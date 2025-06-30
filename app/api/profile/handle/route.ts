@@ -82,5 +82,5 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     success: true,
     message: "Profile handle created successfully!",
-  }, { status: 400 });
+  }, { status: 200 });
 };
