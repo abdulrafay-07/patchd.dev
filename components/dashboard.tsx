@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import { Loading } from "@/components/loading";
+import { MiscForm } from "@/components/misc-form";
 import { CopyHandle } from "@/components/copy-handle";
 
 import { useGetUserProfile } from "@/features/profile/api/get-user-profile";
@@ -25,17 +27,20 @@ export const Dashboard = ({
     };
   }, [isLoading, profile, router]);
 
-  if (isLoading || !profile?.success) {
+  if (isLoading || !profile?.success) return <Loading />
+
+  if (!profile || !profile.data) {
     return (
       <div>
-        Loading...
+        Something went wrong...
       </div>
     )
   };
 
   return (
-    <div className="h-full flex flex-col items-center py-12 px-4 max-w-xl mx-auto">
+    <div className="h-full flex flex-col gap-6 items-center py-12 px-4 max-w-xl mx-auto">
       <CopyHandle handle={profile.data.handle} />
+      <MiscForm userId={userId} profile={profile.data} />
     </div>
   )
 };

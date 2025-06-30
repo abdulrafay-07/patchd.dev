@@ -1,5 +1,8 @@
+import { UserProfile } from "@/lib/generated/prisma";
+
 export interface ApiResponse {
   success: boolean;
   message: string;
-  data: any;
+  data?: UserProfile;
+  error?: string;
 };

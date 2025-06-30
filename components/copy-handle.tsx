@@ -46,6 +46,7 @@ export const CopyHandle = ({
         />
         <Button
           onClick={onCopy}
+          variant="secondary"
           className="cursor-pointer w-20 md:w-24 duration-300 transition-all ease-in"
         >
           {!isCopied ? (

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useQueryState } from "nuqs";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { checkUserHandle } from "@/features/profile/api/check-user-handle";
 import { useGetUserProfile } from "@/features/profile/api/get-user-profile";
@@ -27,6 +28,8 @@ export default function ClaimPage() {
     message: string,
   } | null>(null);
   const [handle, setHandle] = useQueryState("handle");
+  
+  const queryClient = useQueryClient();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -62,8 +65,10 @@ export default function ClaimPage() {
 
   const handleClaim = () => {
     mutate(undefined, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+
+        router.push("/dashboard");
       },
     });
   };
