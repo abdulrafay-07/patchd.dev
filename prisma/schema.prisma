@@ -23,6 +23,7 @@ model User {
 
   account Account?
   session Session?
+  profile UserProfile?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,4 +80,97 @@ model Verification {
   updatedAt DateTime @updatedAt
 
   @@map("verification")
+}
+
+model UserProfile {
+  id            String  @id @default(uuid())
+  userId        String  @unique 
+  handle        String  @unique
+  tagline       String?
+  location      String?
+  revenue       String?
+  tag           String?
+
+  socialLinks   SocialLink[]
+  projects      Project[]
+
+  user          User          @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_profile")
+}
+
+model SocialLink {
+  id        String  @id @default(uuid())
+  userId    String
+  url       String
+  platform  SocialPlatform
+
+  profile   UserProfile @relation(fields: [userId], references: [userId])
+
+  createdAt DateTime  @default(now())
+
+  @@map("social_link")
+}
+
+enum SocialPlatform {
+  GITHUB
+  TWITTER
+  LINKEDIN
+  EMAIL
+  INSTAGRAM
+  YOUTUBE
+}
+
+model Project {
+  id          String  @id @default(uuid())
+  userId      String
+  name        String
+  description String
+  image       String?
+  url         String?
+  revenue     String?
+  category    ProjectCategory?
+  status      ProjectStatus?
+
+  profile   UserProfile @relation(fields: [userId], references: [userId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("project")
+}
+
+enum ProjectCategory {
+  DEV_TOOLS         // APIs, SDKs, CLIs, libs
+  AI                // LLMs, chatbots, AI tools
+  EDUCATION         // Courses, learning platforms, student tools
+  ECOMMERCE         // Stores, carts, shop platforms
+  FINANCE           // Budgeting, crypto, fintech
+  PRODUCTIVITY      // Task managers, calendars, note apps
+  SOCIAL            // Chat, networks, communities
+  HEALTH            // Fitness, wellness, mental health
+  ENTERTAINMENT     // Streaming, memes, content
+  DESIGN            // UI kits, Figma plugins, visual tools
+  PORTFOLIO         // Personal websites, dev portfolios
+  MARKETPLACE       // Platforms connecting buyers/sellers
+  SAAS              // Any business-focused SaaS tool
+  MEDIA             // Video, audio, image tools
+  GAME              // Any game or game engine
+  COMMUNITY         // Forums, groups, social spaces
+  ANALYTICS         // Dashboards, metrics, tracking
+  BLOG              // CMSs, personal/blog platforms
+  UTILITIES         // Helpers, extensions, automation tools
+  OTHER             // Catch-all fallback
+}
+
+enum ProjectStatus {
+  BUILDING
+  LIVE
+  PAUSED
+  DISCONTINUED
+  SELLING
+  ACQUIRED
 }

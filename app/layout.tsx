@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+
 import "./globals.css";
+
+import { QueryProvider } from "@/components/query-provider";
 
 const font = Nunito_Sans({
   subsets: ["latin"],
@@ -23,7 +27,11 @@ export default function RootLayout({
       <body
         className={`${font.className} antialiased`}
       >
-        {children}
+        <QueryProvider>
+          <NuqsAdapter>
+            {children}
+          </NuqsAdapter>
+        </QueryProvider>
       </body>
     </html>
   );

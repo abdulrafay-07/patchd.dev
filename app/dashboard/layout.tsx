@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children,
 }: AuthLayoutProps) {
   return (
-    <main>
+    <main className="h-full">
       {children}
     </main>
   )
