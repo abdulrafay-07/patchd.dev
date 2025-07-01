@@ -72,6 +72,18 @@ export async function POST(req: NextRequest) {
     }, { status: 400 });
   };
 
+  const existingProfile = await prisma.userProfile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  if (existingProfile) {
+    return NextResponse.json({
+      success: false,
+      message: "Profile already exists",
+    }, { status: 400 });
+  };
+
   await prisma.userProfile.create({
     data: {
       userId,

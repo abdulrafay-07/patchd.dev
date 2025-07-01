@@ -106,7 +106,7 @@ model SocialLink {
   id        String  @id @default(uuid())
   userId    String
   url       String
-  platform  SocialPlatform
+  platform  SocialPlatform  @unique
 
   profile   UserProfile @relation(fields: [userId], references: [userId])
 

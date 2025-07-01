@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { Loading } from "@/components/loading";
+import { Socials } from "@/components/socials";
 import { MiscForm } from "@/components/misc-form";
 import { CopyHandle } from "@/components/copy-handle";
 
@@ -41,6 +42,7 @@ export const Dashboard = ({
     <div className="h-full flex flex-col gap-6 items-center py-12 px-4 max-w-xl mx-auto">
       <CopyHandle handle={profile.data.handle} />
       <MiscForm userId={userId} profile={profile.data} />
+      <Socials userId={userId} profile={profile.data} />
     </div>
   )
 };

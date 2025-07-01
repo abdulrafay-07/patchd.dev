@@ -42,7 +42,7 @@ export const CopyHandle = ({
           defaultValue={`patchd.dev/${handle}`}
           placeholder="rafay"
           disabled
-          className="disabled:opacity-80 rounded-sm disabled:text-base"
+          className="rounded-sm disabled:text-base"
         />
         <Button
           onClick={onCopy}

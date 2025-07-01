@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,17 +28,19 @@ import { Button } from "@/components/ui/button";
 import { BicepsFlexed, DollarSign, MapPin } from "lucide-react";
 
 import { bioSchema } from "@/schema";
-import { UserProfile } from "@/lib/generated/prisma";
+import { UserProfileWithRelations } from "@/types";
 
 interface MiscFormProps {
   userId: string;
-  profile: UserProfile;
+  profile: UserProfileWithRelations;
 };
 
 export const MiscForm = ({
   userId,
   profile,
 }: MiscFormProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+
   const { mutate, isPending } = useCreateBio();
   const queryClient = useQueryClient();
 
@@ -51,9 +55,15 @@ export const MiscForm = ({
   });
 
   const onSubmit = (data: z.infer<typeof bioSchema>) => {
+    if (!isEditing) {
+      setIsEditing(true);
+      return;
+    };
+
     mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["profile", userId] })
+        queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+        setIsEditing(false);
       },
     });
   };
@@ -79,6 +89,7 @@ export const MiscForm = ({
                       {...field}
                       value={field.value ?? ""}
                       placeholder="i make software for fun"
+                      disabled={!isEditing}
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,6 +111,7 @@ export const MiscForm = ({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Mars"
+                        disabled={!isEditing}
                       />
                     </FormControl>
                     <FormMessage />
@@ -120,6 +132,7 @@ export const MiscForm = ({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="6900"
+                        disabled={!isEditing}
                       />
                     </FormControl>
                     <FormMessage />
@@ -140,6 +153,7 @@ export const MiscForm = ({
                         {...field}
                         value={field.value ?? ""}
                         placeholder="Vibe coding..."
+                        disabled={!isEditing}
                       />
                     </FormControl>
                     <FormMessage />
@@ -147,12 +161,24 @@ export const MiscForm = ({
                 )}
               />
             </div>
-            <Button
-              className="ml-auto flex w-20 md:w-24 cursor-pointer"
-              disabled={isPending}
-            >
-              Save
-            </Button>
+            <div className="flex items-center justify-end gap-x-2">
+              {isEditing && (
+                <Button
+                  variant="outline"
+                  className="w-20 md:w-24 cursor-pointer"
+                  onClick={() => setIsEditing(false)}
+                  disabled={isPending}
+                >
+                  Cancel
+                </Button>
+              )}
+              <Button
+                className="flex w-20 md:w-24 cursor-pointer"
+                disabled={isPending}
+              >
+                {isEditing ? "Save" : "Edit"}
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>

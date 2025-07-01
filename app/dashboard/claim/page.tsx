@@ -42,7 +42,7 @@ export default function ClaimPage() {
     if ((!isProfileLoading && profile?.success) || !userId) {
       router.push("/dashboard");
     };
-  }, [isProfileLoading]);
+  }, [isProfileLoading, profile, userId, router]);
 
   const debouncedSearch = useCallback(
     debounce(async (q: string) => {
