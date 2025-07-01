@@ -78,7 +78,7 @@ export const Projects = ({
                 <h3 className="text-xl font-bold">{project.name}</h3>
                 {project.category && (
                   <Badge variant="secondary" className="shrink-0">
-                    {project.category}
+                    {changeTextCase(project.category)}
                   </Badge>
                 )}
                 {project.status && (

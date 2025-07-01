@@ -9,5 +9,6 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   data?: UserProfileWithRelations | null;
+  project?: Project;
   error?: string;
 };

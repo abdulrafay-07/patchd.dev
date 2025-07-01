@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect } from "react";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +40,8 @@ import { projectSchema } from "@/schema";
 import { categoryOpts, statusOpts } from "@/constants";
 import { useProjectModal } from "@/features/profile/hooks/use-project-modal";
 import { authClient } from "@/lib/auth-client";
+import { useGetProject } from "@/features/profile/api/get-project";
+import { useUpdateProject } from "@/features/profile/api/update-user-project";
 
 interface ProjectFormProps {
   onCancel?: () => void;
@@ -44,32 +50,67 @@ interface ProjectFormProps {
 export const ProjectForm = ({
   onCancel,
 }: ProjectFormProps) => {
-  const { mutate: create, isPending } = useCreateProject();
+  const { mutate: create, isPending: isCreating } = useCreateProject();
   const queryClient = useQueryClient();
 
   const { data: session } = authClient.useSession();
   const { id, close } = useProjectModal();
+  const { data } = useGetProject({ id: id! });
+  const { mutate: update, isPending: isUpdating } = useUpdateProject({ id: id! });
+
+  const isLoading = isCreating || isUpdating;
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       name: "",
       url: "",
+      description: "",
+      revenue: "",
+      status: "",
+      category: "",
+      image: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof projectSchema>) => {
-    // TODO: add edit logic
-    create(data, {
-      onSuccess: (data) => {
-        toast.success(data.message);
-        queryClient.invalidateQueries({ queryKey: ["profile", session?.user.id] });
-        close();
-      },
-      onError: (data) => {
-        toast.error(data.message);
-      },
-    });
+  useEffect(() => {
+    if (data?.project) {
+      form.reset({
+        name: data.project.name ?? "",
+        url: data.project.url ?? "",
+        description: data.project.description ?? "",
+        revenue: data.project.revenue ?? "",
+        status: data.project.status as string ?? "",
+        category: data.project.category ?? "",
+      });
+    };
+  }, [data, form, onCancel]);
+
+  const onSubmit = (values: z.infer<typeof projectSchema>) => {
+    if (data) {
+      update(values, {
+        onSuccess: (data) => {
+          toast.success(data.message);
+          queryClient.invalidateQueries({ queryKey: ["profile", session?.user.id] });
+          queryClient.invalidateQueries({ queryKey: ["project", data.project?.id] });
+          close();
+        },
+        onError: (data) => {
+          toast.error(data.message);
+        },
+      });
+    } else {
+      create(values, {
+        onSuccess: (data) => {
+          toast.success(data.message);
+          queryClient.invalidateQueries({ queryKey: ["profile", session?.user.id] });
+          close();
+        },
+        onError: (data) => {
+          toast.error(data.message);
+        },
+      });
+    };
   };
 
   return (
@@ -167,7 +208,7 @@ export const ProjectForm = ({
                       <CircleDashed className="size-4" />
                       Status
                     </FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select value={field.value ?? ""} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select status" />
@@ -197,7 +238,7 @@ export const ProjectForm = ({
                       <CircleQuestionMark className="size-4" />
                       Category
                     </FormLabel>
-                    <Select onValueChange={field.onChange}>
+                    <Select value={field.value ?? ""} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select category" />
@@ -231,7 +272,7 @@ export const ProjectForm = ({
               <Button
                 type="submit"
                 className="flex w-20 md:w-24 cursor-pointer"
-                disabled={isPending}
+                disabled={isLoading}
               >
                 {id ? "Update" : "Create"}
               </Button>
