@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { Loading } from "@/components/loading";
 import { Socials } from "@/components/socials";
+import { Projects } from "@/components/projects";
 import { MiscForm } from "@/components/misc-form";
 import { CopyHandle } from "@/components/copy-handle";
 
@@ -43,6 +44,7 @@ export const Dashboard = ({
       <CopyHandle handle={profile.data.handle} />
       <MiscForm userId={userId} profile={profile.data} />
       <Socials userId={userId} profile={profile.data} />
+      <Projects userId={userId} profile={profile.data} />
     </div>
   )
 };

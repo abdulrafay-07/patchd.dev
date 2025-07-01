@@ -13,7 +13,7 @@
 ## Getting Started
 
 1. **Sign Up:** Create your patchd account.
-2. **Build Your Profile:** Add your bio, skills, and links.
+2. **Build Your Profile:** Add your bio, projects, and links.
 3. **Add Projects:** Showcase your work with details and media.
 4. **Share:** Use your unique patchd link to share your portfolio.
 
@@ -22,10 +22,6 @@
 - Centralizes your developer presence.
 - Makes it easy to share your work and achievements.
 - Helps you connect with potential employers, collaborators, and clients.
-
-## License
-
-[MIT](LICENSE)
 
 ---
 

@@ -128,9 +128,9 @@ model Project {
   id          String  @id @default(uuid())
   userId      String
   name        String
-  description String
+  description String?
   image       String?
-  url         String?
+  url         String
   revenue     String?
   category    ProjectCategory?
   status      ProjectStatus?

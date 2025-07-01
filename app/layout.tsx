@@ -6,6 +6,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 import { QueryProvider } from "@/components/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = Nunito_Sans({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${font.className} antialiased`}
       >
         <QueryProvider>
+          <Toaster />
           <NuqsAdapter>
             {children}
           </NuqsAdapter>

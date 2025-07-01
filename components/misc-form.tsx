@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { useCreateBio } from "@/features/profile/api/create-user-bio";
 
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -16,7 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Card,
   CardContent,
@@ -61,15 +62,23 @@ export const MiscForm = ({
     };
 
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        toast.success(data.message);
         queryClient.invalidateQueries({ queryKey: ["profile", userId] });
         setIsEditing(false);
+      },
+      onError: (data) => {
+        toast.error(data.message);
       },
     });
   };
 
+  useEffect(() => {
+    if (!profile.location && !profile.tagline && !profile.revenue && !profile.tag) setIsEditing(true);
+  }, [profile]);
+
   return (
-    <Card className="w-full gap-2">
+    <Card className="w-full gap-4">
       <CardHeader>
         <CardTitle className="text-lg font-bold">
           Bio

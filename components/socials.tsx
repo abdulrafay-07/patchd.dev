@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCreateSocial } from "@/features/profile/api/create-user-social";
 
 import { Hint } from "@/components/hint";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -16,12 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IconType } from "react-icons/lib";
+import { Check } from "lucide-react";
 
 import { urlSchema } from "@/schema";
 import { socials } from "@/constants";
 import { UserProfileWithRelations } from "@/types";
 import { SocialPlatform } from "@/lib/generated/prisma";
-import { Check } from "lucide-react";
 
 interface SocialsProps {
   userId: string;
@@ -64,17 +65,21 @@ export const Socials = ({
 
     const validatedData = urlSchema.safeParse(values);
     if (!validatedData.success) {
-      // TODO: add toast
+      toast.error("Invalid values")
       console.log(validatedData.error.format())
       return
     };
 
     mutate(values, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        toast.success(data.message);
         queryClient.invalidateQueries({ queryKey: ["profile", userId] });
         setUrl("");
         setSocialData(undefined);
       },
+      onError: (data) => {
+        toast.error(data.message);
+      }
     });
   };
 
@@ -91,7 +96,7 @@ export const Socials = ({
             <Hint
               key={social.name}
               label={social.name}
-              sideOffset={4}
+              sideOffset={8}
             >
               <Button
                 size="icon"

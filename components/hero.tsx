@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 export const Hero = () => {
   return (
     <section className="py-12 md:py-24 flex flex-col items-center relative min-h-[80vh] overflow-hidden">
-      <Badge variant="outline" className="z-10">
+      <Badge variant="outline" className="z-10 sm:px-4 sm:py-2">
         💻
         <span className="ml-1 font-medium text-base bg-gradient-to-r from-primary to-amber-800 bg-clip-text text-transparent hover:from-amber-800 hover:to-primary duration-100 transition ease-in">
           The developer portfolio that doesn't suck

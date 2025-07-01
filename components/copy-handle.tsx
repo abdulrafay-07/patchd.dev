@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { Hint } from "@/components/hint";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -24,6 +26,7 @@ export const CopyHandle = ({
   const onCopy = () => {
     setIsCopied(true);
     window.navigator.clipboard.writeText(`patchd.dev/${handle}`);
+    toast.success("Copied to clipboard");
 
     setTimeout(() => {
       setIsCopied(false);
@@ -44,23 +47,25 @@ export const CopyHandle = ({
           disabled
           className="rounded-sm disabled:text-base"
         />
-        <Button
-          onClick={onCopy}
-          variant="secondary"
-          className="cursor-pointer w-20 md:w-24 duration-300 transition-all ease-in"
-        >
-          {!isCopied ? (
-            <>
-              <Copy />
-              Copy
-            </>
-          ) : (
-            <>
-              <Check />
-              Copied
-            </>
-          )}
-        </Button>
+        <Hint label="Copy to clipboard" sideOffset={4}>
+          <Button
+            onClick={onCopy}
+            variant="secondary"
+            className="cursor-pointer w-20 md:w-24 duration-300 transition-all ease-in"
+          >
+            {!isCopied ? (
+              <>
+                <Copy />
+                Copy
+              </>
+            ) : (
+              <>
+                <Check />
+                Copied
+              </>
+            )}
+          </Button>
+        </Hint>
       </CardContent>
     </Card>
   )
