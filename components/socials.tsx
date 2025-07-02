@@ -106,7 +106,7 @@ export const Socials = ({
                 disabled={isPending}
               >
                 {profile.socialLinks.find(p => p.platform === social.value) && (
-                  <Check className="size-5 absolute -top-3 -right-3 bg-primary/30 text-primary p-0.5 rounded-sm" />
+                  <Check className="size-5 absolute -top-3 -right-3 bg-primary/30 text-primary p-0.5 rounded-sm shrink-0" />
                 )}
                 <social.icon />
               </Button>

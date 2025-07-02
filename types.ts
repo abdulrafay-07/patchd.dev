@@ -11,4 +11,5 @@ export interface ApiResponse {
   data?: UserProfileWithRelations | null;
   project?: Project;
   error?: string;
+  url?: string;
 };

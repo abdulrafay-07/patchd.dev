@@ -13,10 +13,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RiAddCircleFill } from "react-icons/ri";
+import { Edit } from "lucide-react";
 
 import { changeTextCase } from "@/lib/helpers";
 import { UserProfileWithRelations } from "@/types";
-import { Edit } from "lucide-react";
 
 interface ProjectsProps {
   userId: string;
@@ -77,32 +77,38 @@ export const Projects = ({
               <div className="flex items-center gap-x-3">
                 <h3 className="text-xl font-bold">{project.name}</h3>
                 {project.category && (
-                  <Badge variant="secondary" className="shrink-0">
-                    {changeTextCase(project.category)}
-                  </Badge>
+                  <Hint label="Category" sideOffset={8}>
+                    <Badge variant="secondary" className="shrink-0">
+                      {changeTextCase(project.category)}
+                    </Badge>
+                  </Hint>
                 )}
                 {project.status && (
-                  <Badge variant="secondary" className="shrink-0">
-                    {changeTextCase(project.status)}
-                  </Badge>
+                  <Hint label="Status" sideOffset={8}>
+                    <Badge variant="secondary" className="shrink-0">
+                      {changeTextCase(project.status)}
+                    </Badge>
+                  </Hint>
                 )}
               </div>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="cursor-pointer"
-                onClick={() => open(project.id)}
-              >
-                <Edit />
-              </Button>
+              <Hint label="Edit Project" sideOffset={8}>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() => open(project.id)}
+                >
+                  <Edit />
+                </Button>
+              </Hint>
             </div>
             {project.description && (
-              <p className=" line-clamp-2 text-muted-foreground">
+              <p className=" line-clamp-2 text-muted-foreground mt-1">
               {project.description}
               </p>
             )}
             {project.revenue && (
-              <span className="text-sm mt-4">
+              <span className="text-sm mt-3">
                 {!project.revenue.includes("$") && "$"} {project.revenue}
               </span>
             )}

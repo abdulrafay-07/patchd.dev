@@ -20,13 +20,6 @@ export async function GET(
   const userId = data.user.id;
   const { id } = await params;
 
-  if (id === undefined) {
-    return NextResponse.json({
-      success: false,
-      message: "Invalid Project ID",
-    }, { status: 400 });
-  };
-
   const project = await prisma.project.findUnique({
     where: {
       id,
