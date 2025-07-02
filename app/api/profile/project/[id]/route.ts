@@ -89,3 +89,37 @@ export async function PATCH(
     project,
   }, { status: 200 });
 };
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { data, error } = await authMiddleware();
+
+  if (error != null) {
+    return NextResponse.json({
+      success: error.success,
+      message: error.message,
+    }, { status: 401 });
+  };
+  const userId = data.user.id;
+  const { id } = await params;
+
+  const project = await prisma.project.delete({
+    where: {
+      id,
+      userId,
+    },
+  });
+  if (!project) {
+    return NextResponse.json({
+      success: false,
+      message: "No project found",
+    }, { status: 200 });
+  };
+  
+  return NextResponse.json({
+    success: true,
+    message: "Project deleted successfully",
+  }, { status: 200 }); 
+};

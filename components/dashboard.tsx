@@ -40,7 +40,7 @@ export const Dashboard = ({
   };
 
   return (
-    <div className="h-full flex flex-col gap-6 items-center py-12 px-4 max-w-xl mx-auto">
+    <div className="flex flex-col gap-6 items-center py-12 px-4 max-w-xl mx-auto">
       <CopyHandle handle={profile.data.handle} />
       <MiscForm userId={userId} profile={profile.data} />
       <Socials userId={userId} profile={profile.data} />
