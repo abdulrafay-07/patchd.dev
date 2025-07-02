@@ -115,3 +115,12 @@ export const categoryOpts = [
   { name: "Utilities", value: "UTILITIES" },
   { name: "Other", value: "OTHER" },
 ];
+
+export const socialMap = {
+  "GITHUB": FaGithub,
+  "TWITTER": FaXTwitter,
+  "INSTAGRAM": FaInstagram,
+  "LINKEDIN": FaLinkedin,
+  "YOUTUBE": FaYoutube,
+  "EMAIL": IoMdMail,
+};
