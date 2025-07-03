@@ -6,6 +6,7 @@ import { useGetProfileByHandle } from "@/features/profile/api/get-profile-by-han
 
 import { Hint } from "@/components/hint";
 import { Loading } from "@/components/loading";
+import { ProjectCard } from "@/components/project-card";
 import { toast } from "sonner";
 import {
   Avatar,
@@ -16,8 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DollarSign, MapPin } from "lucide-react";
 
-import { socialMap, socials as socialConst } from "@/constants";
 import { changeTextCase, makeUrl } from "@/lib/helpers";
+import { socialMap, socials as socialConst } from "@/constants";
 
 interface ProfileHandleProps {
   handle: string;
@@ -42,23 +43,23 @@ export const ProfileHandle = ({
   if (isLoading) return <Loading />;
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto py-12 px-4 flex flex-col lg:flex-row gap-6">
-      <div className="flex flex-col w-fit max-w-[500px]">
+    <div className="min-h-screen max-w-7xl mx-auto py-12 px-4 flex flex-col gap-6 lg:flex-row lg:gap-12">
+      <div className="flex flex-col w-full lg:max-w-[480px]">
         <div className="flex gap-x-4 mb-4">
-          <Avatar className="size-20 border-2 border-primary">
+          <Avatar className="size-20 border-2 border-primary/20">
             <AvatarImage src={user?.image!} alt="User Avatar" />
             <AvatarFallback>
               {user?.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-2xl font-extrabold">
               {user?.name}
             </h1>
             <div className="flex items-center gap-x-2 mb-2">
-              <span className="text-sm font-semibold">@{profile?.handle}</span>
+              <span className="text-sm font-bold text-primary">@{profile?.handle}</span>
               {profile?.tag && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-primary-100 to-amber-100 text-primary border border-primary-200">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r to-amber-100 hover:from-amber-100 hover:to-transparent text-primary border">
                   {profile?.tag}
                 </span>
               )}
@@ -68,15 +69,18 @@ export const ProfileHandle = ({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-x-2 justify-between">
+        <div className="flex items-center gap-x-2">
           {profile?.location && (
             <div className="flex items-center gap-x-1">
               <MapPin className="size-4" />
               {profile?.location}
             </div>
           )}
+          {profile?.location && profile.revenue && (
+            <Separator orientation="vertical" />
+          )}
           {profile?.revenue && (
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center">
               <DollarSign className="size-4" />
               {profile?.revenue}
             </div>
@@ -132,6 +136,25 @@ export const ProfileHandle = ({
             })}
           </div>
         )}
+      </div>
+
+      <div className="flex flex-col flex-1">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold">
+            Projects
+          </h3>
+          <span>
+            {projects?.length} projects
+          </span>
+        </div>
+        <div className="grid grid-cols-1 gap-6">
+          {projects?.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
