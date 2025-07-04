@@ -27,7 +27,7 @@ export const Dashboard = ({
     if (!isLoading && !profile?.success) {
       router.push(`/dashboard/claim?userId=${userId}`);
     };
-  }, [isLoading, profile, router]);
+  }, [isLoading, profile, router, userId]);
 
   if (isLoading || !profile?.success) return <Loading />
 

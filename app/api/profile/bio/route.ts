@@ -1,7 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 
-import { z } from "zod";
-
 import prisma from "@/lib/prisma";
 import { bioSchema } from "@/schema";
 import { authMiddleware } from "@/lib/auth-middleware";

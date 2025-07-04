@@ -11,7 +11,7 @@ export const Hero = () => {
       <Badge variant="outline" className="z-10 sm:px-4 sm:py-2">
         💻
         <span className="ml-1 font-medium text-base bg-gradient-to-r from-primary to-amber-800 bg-clip-text text-transparent hover:from-amber-800 hover:to-primary duration-100 transition ease-in">
-          The developer portfolio that doesn't suck
+          The developer portfolio that doesn&apos;t suck
         </span>
       </Badge>
       <h1 className="flex z-10 mt-8 text-3xl md:text-5xl lg:text-6xl font-extrabold text-center text-pretty leading-tight max-w-5xl">
