@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useQueryState } from "nuqs";
@@ -74,42 +74,44 @@ export default function ClaimPage() {
   };
 
   return (
-    <div className="h-full flex items-center justify-center">
-      <Card className="max-w-sm w-full gap-2">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Claim your page
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-y-4">
-          <div className="flex h-7 items-center">
-            <span className="mr-1">
-              patchd.dev/
-            </span>
-            <Input
-              value={handle || ""}
-              onChange={(e) => handleDebounce(e)}
-              placeholder="rafay"
-              min={3}
-              max={24}
-              className="border-none border-primary rounded-xs focus-visible:ring-1 focus-visible:ring-primary"
-            />
-          </div>
-          {response && (
-            <AlertMessage
-              success={response.success}
-              message={response.message}
-            />
-          )}
-          <Button
-            disabled={!response?.success || isPending}
-            onClick={handleClaim}
-            className="cursor-pointer"
-          >
-            Claim
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+    <Suspense>
+      <div className="h-full flex items-center justify-center">
+        <Card className="max-w-sm w-full gap-2">
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">
+              Claim your page
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-y-4">
+            <div className="flex h-7 items-center">
+              <span className="mr-1">
+                patchd.dev/
+              </span>
+              <Input
+                value={handle || ""}
+                onChange={(e) => handleDebounce(e)}
+                placeholder="rafay"
+                min={3}
+                max={24}
+                className="border-none border-primary rounded-xs focus-visible:ring-1 focus-visible:ring-primary"
+              />
+            </div>
+            {response && (
+              <AlertMessage
+                success={response.success}
+                message={response.message}
+              />
+            )}
+            <Button
+              disabled={!response?.success || isPending}
+              onClick={handleClaim}
+              className="cursor-pointer"
+            >
+              Claim
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </Suspense>
   )
 };
