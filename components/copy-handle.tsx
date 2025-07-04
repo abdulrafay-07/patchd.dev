@@ -25,7 +25,7 @@ export const CopyHandle = ({
 
   const onCopy = () => {
     setIsCopied(true);
-    window.navigator.clipboard.writeText(`patchd.dev/${handle}`);
+    window.navigator.clipboard.writeText(`patchd.vercel.app/${handle}`);
     toast.success("Copied to clipboard");
 
     setTimeout(() => {
@@ -42,7 +42,7 @@ export const CopyHandle = ({
       </CardHeader>
       <CardContent className="flex items-center gap-x-2">
         <Input
-          defaultValue={`patchd.dev/${handle}`}
+          defaultValue={`patchd.vercel.app/${handle}`}
           placeholder="rafay"
           disabled
           className="rounded-sm disabled:text-base"
