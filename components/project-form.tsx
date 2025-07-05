@@ -282,7 +282,7 @@ export const ProjectForm = ({
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="https://patchd.dev"
+                        placeholder="https://patchd.vercel.app"
                       />
                     </FormControl>
                     <FormMessage />
