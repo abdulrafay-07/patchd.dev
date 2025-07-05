@@ -65,7 +65,7 @@ export const Socials = ({
 
     const validatedData = urlSchema.safeParse(values);
     if (!validatedData.success) {
-      toast.error("Invalid values")
+      toast.error("Invalid url")
       console.log(validatedData.error.format())
       return
     };

@@ -80,8 +80,8 @@ export const ProjectForm = ({
         url: data.project.url ?? "",
         description: data.project.description ?? "",
         revenue: data.project.revenue ?? "",
-        status: data.project.status as string ?? "",
-        category: data.project.category ?? "",
+        status: data.project.status ?? undefined,
+        category: data.project.category ?? undefined,
         image: data.project.image ?? "",
       });
 
