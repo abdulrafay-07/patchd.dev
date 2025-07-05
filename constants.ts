@@ -11,8 +11,8 @@ export const navItems = [
     icon: BookOpen,
   },
   {
-    label: "Behind the Build",
-    href: "/#behind-the-build",
+    label: "How it works",
+    href: "/#how-it-works",
     icon: Hammer,
   },
   {
