@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { getSessionCookie } from "better-auth/cookies";
+// import { getSessionCookie } from "better-auth/cookies";
 
 const isProtectedRoute = "/dashboard";
 
 export async function middleware(request: NextRequest) {
-  const sessionCookie = getSessionCookie(request);
+  const sessionCookie = request.cookies.get("patch-dev.session_token");
+  // const sessionCookie = getSessionCookie(request, {
+  //   cookiePrefix: "patch-dev",
+  //   cookieName: "session_token",
+  // });
+  // console.log(sessionCookie, request.cookies)
   const isDashboard = request.nextUrl.pathname.startsWith(isProtectedRoute);
 
   if (!sessionCookie && isDashboard) {
